@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 @Entity
 @Table(name = "post")
@@ -51,7 +52,7 @@ public class Post {
     }
 
     public LocalTime getTime() {
-        return time;
+        return LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
     }
 
     public void setTime(LocalTime time) {

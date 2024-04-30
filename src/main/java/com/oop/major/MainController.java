@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -57,12 +58,12 @@ public class MainController {
                 return ResponseEntity.ok("Login Successful");
             } else {
                 Map<String, String> errorResponse = new HashMap<>();
-                errorResponse.put("error", "Username/Password Incorrect");
+                errorResponse.put("Error", "Username/Password Incorrect");
                 return ResponseEntity.badRequest().body(errorResponse);
             }
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "User does not exist");
+            errorResponse.put("Error", "User does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -88,7 +89,6 @@ public class MainController {
 
     @GetMapping("/user")
     public ResponseEntity<Object> getUserDetails(@RequestParam("userID") int userID) {
-        // Find the user by userID
         Optional<Users> userOptional = userRepository.findById((long) userID);
 
         if (userOptional.isPresent()) {
@@ -100,7 +100,7 @@ public class MainController {
             return ResponseEntity.ok(userDetails);
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "User does not exist");
+            errorResponse.put("Error", "User does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -122,7 +122,7 @@ public class MainController {
                 commentMap.put("commentID", comment.getCommentID());
                 commentMap.put("commentBody", comment.getCommentBody());
 
-                // Construct comment creator object
+
                 Map<String, Object> commentCreator = new HashMap<>();
                 Users creator = comment.getCommentCreator();
                 commentCreator.put("userID", creator.getUserID());
@@ -156,27 +156,27 @@ public class MainController {
             post.setPostBody(postBody);
             post.setPostCreator(user);
             LocalDate currentDate = LocalDate.now();
-            LocalTime currentTime = LocalTime.now();
+            LocalTime currentTime = LocalTime.parse(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
             post.setDate(currentDate);
             post.setTime(currentTime);
             postRepository.save(post);
             return ResponseEntity.ok("Post created successfully");
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "User does not exist");
+            errorResponse.put("Error", "User does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 
     @GetMapping("/post")
     public ResponseEntity<Object> getPost(@RequestParam("postID") int postId) {
-        // Find the post by postId
+
         Optional<Post> postOptional = postRepository.findById((long) postId);
 
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
 
-            // Construct response object
+
             Map<String, Object> postResponse = new HashMap<>();
             postResponse.put("postID", post.getPostID());
             postResponse.put("postBody", post.getPostBody());
@@ -199,7 +199,7 @@ public class MainController {
             return ResponseEntity.ok(postResponse);
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Post does not exist");
+            errorResponse.put("Error", "Post does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -218,7 +218,7 @@ public class MainController {
             return ResponseEntity.ok("Post edited successfully");
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Post does not exist");
+            errorResponse.put("Error", "Post does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -231,7 +231,7 @@ public class MainController {
             return ResponseEntity.ok("Post deleted");
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Post does not exist");
+            errorResponse.put("Error", "Post does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -245,14 +245,14 @@ public class MainController {
         Optional<Users> userOptional = userRepository.findById((long) userId);
         if (!userOptional.isPresent()) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "User does not exist");
+            errorResponse.put("Error", "User does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
 
         Optional<Post> postOptional = postRepository.findById((long) postId);
         if (!postOptional.isPresent()) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Post does not exist");
+            errorResponse.put("Error", "Post does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
         
@@ -284,7 +284,7 @@ public class MainController {
             return ResponseEntity.ok(commentResponse);
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Comment does not exist");
+            errorResponse.put("Error", "Comment does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -302,7 +302,7 @@ public class MainController {
             return ResponseEntity.ok("Comment edited successfully");
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Comment does not exist");
+            errorResponse.put("Error", "Comment does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
@@ -316,7 +316,7 @@ public class MainController {
             return ResponseEntity.ok("Comment deleted");
         } else {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Comment does not exist");
+            errorResponse.put("Error", "Comment does not exist");
             return ResponseEntity.badRequest().body(errorResponse);
         }
     }
