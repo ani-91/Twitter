@@ -1,33 +1,38 @@
-Note:
+## Note:
+```
 All requests and responses are in JSON format
 All dates are in the yyyy-MM-dd format
-All times are in the HH:mm:ss format 
-Use the H2 database to store any persistent data. Use this application.properties = spring.datasource.url=jdbc:h2:mem:testdb
-                                                                                    spring.datasource.driverClassName=org.h2.Driver
-                                                                                    spring.datasource.username=sa
-                                                                                    spring.datasource.password=password
-                                                                                    spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-                                                                                    spring.h2.console.enabled=true
+All times are in the HH:mm:ss format
+
+Use the H2 database to store any persistent data. Use this application.properties =
+- spring.datasource.url=jdbc:h2:mem:testdb
+- spring.datasource.driverClassName=org.h2.Driver
+- spring.datasource.username=sa
+- spring.datasource.password=password
+- spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+- spring.h2.console.enabled=true
+
 The base URL for the application is: http://127.0.0.1:8080
+
 Python Script to test the code is attached. To run this script-
 1. Install python
 2. pip install requests
 3. run application first
 4. run the python file
+```
+# Social Media Platform (Twitter):
 
-Social Media Platform (Twitter):
-
-Endpoints-
- 
+## Endpoints-
+```
 LOGIN: Endpoint to login an existing user. If the user does not exist or the credentials are incorrect, relevant error is thrown
 URL: /login
 Method: POST
-Request Body: email <str> 
-          password <str>
+Request Body: email <str>
+              password <str>
 Response:<One of the following Messages>
-Login Successful
-Username/Password Incorrect
-User does not exist
+        Login Successful
+        Username/Password Incorrect
+        User does not exist
 
 
 SIGNUP: Endpoint to register a new user. If the account already exists, relevant error should be returned
@@ -68,8 +73,9 @@ Response Body: posts <object>
                                                  -userID<int>
                                                  -name<str>
 
-
-Endpoints related to a POST
+```
+## Endpoints related to a POST
+```
 URL: /post
 
 To create a new post. Return relevant error if the user does not exist
@@ -114,8 +120,9 @@ Response: One of:
 Post deleted
 Post does not exist
 
-
-Endpoints related to comments on a post
+```
+## Endpoints related to comments on a post
+```
 URL: /comment
 
 To create a new comment. Relevant error needs to be returned if the post does not exist
@@ -165,4 +172,4 @@ Response:<Object>
             -userID <int>
             -email <str>
             -posts <object>
-
+```
